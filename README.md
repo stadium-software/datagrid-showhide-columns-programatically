@@ -2,6 +2,10 @@
 
 A module that allows for showing and hiding DataGrid columns in scripts
 
+
+https://github.com/stadium-software/datagrid-showhide-columns-programatically/assets/2085324/f6eeeb0c-a72a-416a-bfbe-8a482acb2590
+
+
 # Version 
 1.0
 
