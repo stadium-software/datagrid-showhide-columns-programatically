@@ -81,7 +81,7 @@ function getDMValues(ob, property) {
    1. Drag a *List* action into the script 
    2. Set the List Type to ColumnVisibility
    3. Add columns in sets containing
-      1. Column name (as per the column definition)
+      1. Column name (as per the column definition indicated in screenshot below)
       2. Visibility boolean (booleans do not have quotes in Javascript)
 
 List Value Example:
