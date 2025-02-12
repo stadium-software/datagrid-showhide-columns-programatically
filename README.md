@@ -5,9 +5,11 @@ A module that allows for showing and hiding DataGrid columns in scripts
 https://github.com/stadium-software/datagrid-showhide-columns-programatically/assets/2085324/f6eeeb0c-a72a-416a-bfbe-8a482acb2590
 
 # Version 
-1.0 - initial
+Latest version: 1.2
 
 1.1 Changed column input to list of types (column & visibility); switched from DOM to using DataModel ColumnDefinitions visible property
+
+1.2 Added ability to show / hide "Selectable Data" column
 
 ## Application Setup
 1. Check the *Enable Style Sheet* checkbox in the application properties
@@ -21,9 +23,9 @@ https://github.com/stadium-software/datagrid-showhide-columns-programatically/as
    1. Columns
    2. DataGridClass
 3. Drag a *JavaScript* action into the script
-4. Add the Javascript below into the JavaScript code property
+4. Add the Javascript below unchanged into the JavaScript code property
 ```javascript
-/* Stadium Script v1.1 - see https://github.com/stadium-software/datagrid-showhide-columns-programatically */
+/* Stadium Script v1.2 - see https://github.com/stadium-software/datagrid-showhide-columns-programatically */
 let scope = this;
 let arrCols = ~.Parameters.Input.Columns;
 let inputClass = ~.Parameters.Input.DataGridClass;
@@ -43,11 +45,13 @@ function initShowHide() {
     let arrDefs = getDMValues(dg, "ColumnDefinitions");
     for (let i = 0; i < arrCols.length; i++) { 
         let ob = findObj(arrDefs, arrCols[i]);
-        ob.visible = arrCols[i].visible;
+        let visible = (arrCols[i].visible === 'true' || arrCols[i].visible === true);
+        if (ob) ob.visible = visible;
+        if (arrCols[i].name.toLowerCase() == "selectabledata") setDMValues(dg, "HasSelectableData", visible);
     }
 }
 function findObj(arr, ob) {
-    return arr.find(item => item.name === ob.name);
+    return arr.find(item => item.name.toLowerCase() === ob.name.toLowerCase());
 }
 function getObjectName(obj) {
     let objname = obj.id.replace("-container","");
@@ -60,6 +64,10 @@ function getObjectName(obj) {
 function getDMValues(ob, property) {
     let obname = getObjectName(ob);
     return scope[`${obname}${property}`];
+}
+function setDMValues(ob, property, value) {
+    let obname = getObjectName(ob);
+    scope[`${obname}${property}`] = value;
 }
 ```
 
@@ -92,6 +100,9 @@ List Value Example:
 },{
 	"name": "LastName",
 	"visible": false
+},{
+	"name": "SelectableData",
+	"visible": false
 }]
 ```
 
@@ -100,3 +111,20 @@ List Value Example:
 3. Drag the *ColumnHiding* script into the script and complete the input parameters
    1. Columns: Select your *List* containing the columns from the dropdown
    2. DataGridClass: The unique class you assigned to the *DataGrid* (e.g datagrid-hide-cols)
+
+## Show / Hide "Selectable Data" Column
+To show or hide the "SelectableData" column, specify the column in the "ColumnVisibility" list together with the visible boolean as shown below
+
+List Value Example:
+```json
+= [{
+	"name": "FirstName",
+	"visible": false
+},{
+	"name": "LastName",
+	"visible": false
+},{
+	"name": "SelectableData",
+	"visible": true
+}]
+```
