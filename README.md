@@ -1,4 +1,4 @@
-# Show & hide DataGrid columns programatically
+# Show & Hide DataGrid Columns Programatically
 
 A module that allows for showing and hiding DataGrid columns in scripts
 
